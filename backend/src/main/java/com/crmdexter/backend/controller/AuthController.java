@@ -122,18 +122,19 @@ public class AuthController {
     }
 
     private ResponseCookie createCookie(
-            String value,
-            Duration maxAge
-    ) {
-        return ResponseCookie
-            .from(COOKIE_NAME, value)
-            .httpOnly(true)
-            .secure(cookieSecure)
-            .sameSite(cookieSecure ? "None" : "Lax")
-            .path("/")
-            .maxAge(maxAge)
-            .build();
-    }
+        String value,
+        Duration maxAge
+) {
+    return ResponseCookie
+        .from(COOKIE_NAME, value)
+        .httpOnly(true)
+        .secure(cookieSecure)
+        .sameSite(cookieSecure ? "None" : "Lax")
+        .partitioned(cookieSecure)
+        .path("/")
+        .maxAge(maxAge)
+        .build();
+}
 
     private boolean isAuthenticated(Authentication authentication) {
         return authentication != null
