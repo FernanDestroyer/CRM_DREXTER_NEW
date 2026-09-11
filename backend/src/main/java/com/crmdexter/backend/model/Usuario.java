@@ -1,0 +1,47 @@
+package com.crmdexter.backend.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.UUID;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
+
+@Entity
+@Table(name = "usuarios")
+public class Usuario {
+    @Id @GeneratedValue(strategy = GenerationType.UUID) @JdbcTypeCode(SqlTypes.UUID)
+    @Column(name = "id", columnDefinition = "uuid") private UUID id;
+    @CreationTimestamp @Column(name = "created_at", nullable = false, updatable = false) private LocalDateTime createdAt;
+    @UpdateTimestamp @Column(name = "updated_at", nullable = false) private LocalDateTime updatedAt;
+    @JdbcTypeCode(SqlTypes.UUID) @Column(name = "organizacion_id", nullable = false, columnDefinition = "uuid") private UUID organizacionId;
+    @Column(nullable = false, length = 150) private String nombre;
+    @Column(nullable = false, length = 180, unique = true) private String email;
+    @Column(name = "password_hash", nullable = false, length = 255) private String passwordHash;
+    @Column(nullable = false, length = 40) private String rol = "ANALISTA";
+    @Column(nullable = false, length = 20) private String estado = "ACTIVO";
+    @Column(name = "ultimo_acceso") private LocalDateTime ultimoAcceso;
+    public Usuario() {}
+
+    public UUID getId() { return id; }
+    public UUID getOrganizacionId() { return organizacionId; }
+    public String getEmail() { return email; }
+    public String getNombre() { return nombre; }
+    public String getRol() { return rol; }
+    public String getEstado() { return estado; }
+    public LocalDateTime getUltimoAcceso() { return ultimoAcceso; }
+
+    public void setOrganizacionId(UUID organizacionId) { this.organizacionId = organizacionId; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setEmail(String email) { this.email = email; }
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+    public void setRol(String rol) { this.rol = rol; }
+    public void setEstado(String estado) { this.estado = estado; }
+    public void setUltimoAcceso(LocalDateTime ultimoAcceso) { this.ultimoAcceso = ultimoAcceso; }
+}

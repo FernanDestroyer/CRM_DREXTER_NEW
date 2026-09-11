@@ -1,0 +1,48 @@
+package com.crmdexter.backend.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.UUID;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
+
+@Entity
+@Table(name = "proyectos")
+public class Proyecto {
+    @Id @GeneratedValue(strategy = GenerationType.UUID) @JdbcTypeCode(SqlTypes.UUID) @Column(name = "id", columnDefinition = "uuid") private UUID id;
+    @CreationTimestamp @Column(name = "created_at", nullable = false, updatable = false) private LocalDateTime createdAt;
+    @UpdateTimestamp @Column(name = "updated_at", nullable = false) private LocalDateTime updatedAt;
+    @JdbcTypeCode(SqlTypes.UUID) @Column(name = "organizacion_id", nullable = false, columnDefinition = "uuid") private UUID organizacionId;
+    @JdbcTypeCode(SqlTypes.UUID) @Column(name = "created_by", nullable = false, columnDefinition = "uuid") private UUID createdBy;
+    @Column(nullable = false, length = 180) private String nombre;
+    @Column(length = 60) private String codigo;
+    @Column(length = 1000) private String descripcion;
+    @Column(name = "tipo_dato", nullable = false, length = 40) private String tipoDato;
+    @Column(nullable = false, length = 30) private String estado = "CREADO";
+
+    protected Proyecto() {}
+
+    public Proyecto(UUID organizacionId, UUID createdBy, String nombre, String descripcion, String tipoDato) {
+        this.organizacionId = organizacionId;
+        this.createdBy = createdBy;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipoDato = tipoDato;
+    }
+
+    public UUID getId() { return id; }
+    public UUID getCreatedBy() { return createdBy; }
+    public String getNombre() { return nombre; }
+    public String getDescripcion() { return descripcion; }
+    public String getTipoDato() { return tipoDato; }
+    public String getEstado() { return estado; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+}
